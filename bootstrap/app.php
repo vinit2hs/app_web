@@ -11,12 +11,12 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->alias([
+            'sentinel.auth' => \App\Http\Middleware\SentinelAuthenticate::class,
+            'sentinel.noAuth' => \App\Http\Middleware\SentinelNoAuthenticate::class
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
-    })->withProviders([
-        // Registrar o custom user provider do Sentinel
-        \Cartalyst\Sentinel\Laravel\SentinelServiceProvider::class,
-    ])
+    })
     ->create();

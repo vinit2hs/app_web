@@ -38,6 +38,12 @@ $(document).ready(function () {
     $(document).on("click", "#new_target", function () {
         handleModal(this);
     });
+
+    //Btn logout
+    $(document).on("click", "#logout", function (e) {
+        let btn = $(e.target);
+        logout(btn.attr("action"), btn.attr("redirect"));
+    });
 });
 
 function handleDeleteRow(element) {
@@ -271,4 +277,22 @@ function getInstanceFormValidation(form, fields) {
             }),
         },
     });
+}
+
+function logout(url, redirect) {
+    handleAjax(
+        url,
+        "GET",
+        null,
+        function () {
+            window.location.href = redirect;
+        },
+        function (error) {
+            handleAlert(
+                error?.responseJSON?.message ??
+                "Ops, ocorreu um erro, tente novamente!!",
+                "error"
+            );
+        }
+    );
 }

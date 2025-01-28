@@ -1,4 +1,4 @@
-<html lang="en">
+<html lang="pt-BR">
 
 @include('includes.head')
 
@@ -33,13 +33,11 @@
                 <script src="{{ asset('assets/js/scripts.bundle.js') }}"></script>
                 <script src="{{ asset('assets/js/jquery.serializejson.js') }}"></script>
                 <script src="{{ asset('assets/js/app.js') }}"></script>
-                <!--end::Global Javascript Bundle-->
-                <!--begin::Vendors Javascript(used for this page only)-->
-                <!--end::Vendors Javascript-->
-                <!--begin::Custom Javascript(used for this page only)-->
-
-                <!--end::Custom Javascript-->
-                <!--end::Javascript-->
+                <script>
+                    @if(Illuminate\Support\Facades\Session::has('error'))
+                        handleAlert('{{ Illuminate\Support\Facades\Session::get('error') }}', 'error')
+                    @endif
+                </script>
 
             @show
 </body>
