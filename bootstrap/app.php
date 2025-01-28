@@ -15,8 +15,5 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
-    })->withProviders([
-        // Registrar o custom user provider do Sentinel
-        \Cartalyst\Sentinel\Laravel\SentinelServiceProvider::class,
-    ])
+    })
     ->create();

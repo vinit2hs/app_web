@@ -7,7 +7,6 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "cartalyst/sentinel": "^8.0",
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9",
         "yajra/laravel-datatables": "^11.0"
