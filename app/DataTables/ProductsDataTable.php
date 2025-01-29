@@ -6,13 +6,10 @@ use App\Models\Product;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
-use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class ProdutsDataTable extends DataTable
+class ProductsDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -22,13 +19,13 @@ class ProdutsDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('categoria-subcategoria', function ($query) {
+            ->editColumn('categoria-subcategoria', function ($query) {
                 return $query->category->name . ' - ' . $query->subCategory->name;
             })
-            ->addColumn('brand', function ($query) {
+            ->editColumn('brand', function ($query) {
                 return $query->brand->name;
             })
-            ->addColumn('acoes', function ($query) {
+            ->editColumn('acoes', function ($query) {
                 return view('components.produtos.dataTableActions', ['id' => $query->id]);
             })
             ->setRowClass('text-gray-700 bg-hover-light-primary')
@@ -84,7 +81,7 @@ class ProdutsDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('produts-table')
+            ->setTableId('products-table')
             ->addTableClass('align-middle table-row-dashed fs-6 gy-5')
             ->setTableHeadClass('text-uppercase fw-bold text-muted fs-7')
             ->columns($this->getColumns())
@@ -126,6 +123,6 @@ class ProdutsDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Produts_' . date('YmdHis');
+        return 'Products_' . date('YmdHis');
     }
 }

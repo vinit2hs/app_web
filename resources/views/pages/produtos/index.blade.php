@@ -69,7 +69,7 @@
                                         class="form-control form-control-solid" placeholder="Digite o código da intelbras">
                                 </div>
                                 <div class="col-3">
-                                    <button type="button" class="btn btn-light-primary w-100" data-table="#produts-table"
+                                    <button type="button" class="btn btn-light-primary w-100" data-table="#products-table"
                                         id="searchTable">
                                         <i class="ki-duotone ki-filter-search fs-2">
                                             <span class="path1"></span>

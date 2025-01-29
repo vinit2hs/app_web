@@ -1,5 +1,5 @@
 <form id="form_update_product" class="form fv-plugins-bootstrap5 fv-plugins-framework" method="PUT"
-    action="{{ route('produtos.update', $product->id) }}" data-table="#produts-table">
+    action="{{ route('produtos.update', $product->id) }}" data-table="#products-table">
     <div class="mb-13 text-center">
         <h1 id="titleForm" class="mb-3">Editar Produto</h1>
     </div>

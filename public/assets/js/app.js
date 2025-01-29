@@ -85,13 +85,17 @@ function handleAjax(
     error,
     beforeSend,
     complete,
-    xhrFields
+    xhrFields,
+    processData,
+    contentType
 ) {
     $.ajax({
         url,
         type,
         data,
         xhrFields,
+        processData,
+        contentType,
         headers: {
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
         },
@@ -172,7 +176,13 @@ function handleSubmit(form, validator, isModal = true, isDataTable = true) {
         if (validator) {
             validator.validate().then(function (status) {
                 if (status === "Valid") {
-                    let formData = form.serializeJSON();
+                    let formData = null;
+                    let condition = form.attr("enctype") && form.attr("enctype") === "multipart/form-data";
+                    if(condition){
+                        formData = new FormData(form[0]);
+                    }else{
+                        formData = form.serializeJSON();
+                    }
                     handleAjax(
                         form.attr("action"),
                         form.attr("method"),
@@ -219,7 +229,10 @@ function handleSubmit(form, validator, isModal = true, isDataTable = true) {
                             form.find(".indicator-progress").removeClass(
                                 "d-block"
                             );
-                        }
+                        },
+                        undefined,
+                        condition ? false : undefined,
+                        condition ? false : undefined
                     );
                 }
             });

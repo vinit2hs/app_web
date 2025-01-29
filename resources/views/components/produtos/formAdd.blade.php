@@ -1,5 +1,5 @@
 <form id="form_new_product" class="form fv-plugins-bootstrap5 fv-plugins-framework" method="POST"
-    action="{{ route('produtos.store') }}" data-table="#produts-table">
+    action="{{ route('produtos.store') }}" data-table="#products-table">
     <div class="mb-13 text-center">
         <h1 id="titleForm" class="mb-3">Novo Produto</h1>
     </div>

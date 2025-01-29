@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\DataTables\ProdutsDataTable;
+use App\DataTables\ProductsDataTable;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
@@ -15,7 +15,7 @@ class ProdutosController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(ProdutsDataTable $dataTable, Request $request)
+    public function index(ProductsDataTable $dataTable, Request $request)
     {
         $brands = Brand::all()->toArray();
         $categories = Category::all()->toArray();
