@@ -6,7 +6,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Cartalyst\Sentinel\Laravel\Facades\Activation;
-use Illuminate\Support\Facades\View;
 
 class AuthController extends Controller
 {

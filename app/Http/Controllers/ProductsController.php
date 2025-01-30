@@ -18,9 +18,9 @@ class ProductsController extends Controller
      */
     public function index(ProductsDataTable $dataTable, Request $request)
     {
-        $brands = Brand::all()->toArray();
-        $categories = Category::all()->toArray();
-        $subCategories = SubCategory::all()->toArray();
+        $brands = Brand::all()->sortBy('name');
+        $categories = Category::all()->sortBy('name');
+        $subCategories = SubCategory::all()->sortBy('name');
         $data = [
             'brands' => $brands,
             'categories' => $categories,
@@ -34,10 +34,10 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        $brands = Brand::all()->toArray();
-        $categories = Category::all()->toArray();
-        $subCategories = SubCategory::all()->toArray();
-        $volumes = Volume::all()->toArray();
+        $brands = Brand::all()->sortBy('name');
+        $categories = Category::all()->sortBy('name');
+        $subCategories = SubCategory::all()->sortBy('name');
+        $volumes = Volume::all()->sortBy('name');
         $data = [
             'brands' => $brands,
             'categories' => $categories,
@@ -107,10 +107,10 @@ class ProductsController extends Controller
             return response()->json(['message' => 'Produto não encontrado'], 404);
         }
 
-        $brands = Brand::all()->toArray();
-        $categories = Category::all()->toArray();
-        $subCategories = SubCategory::all()->toArray();
-        $volumes = Volume::all()->toArray();
+        $brands = Brand::all()->sortBy('name');
+        $categories = Category::all()->sortBy('name');
+        $subCategories = SubCategory::all()->sortBy('name');
+        $volumes = Volume::all()->sortBy('name');
         $data = [
             'product' => $product,
             'brands' => $brands,

@@ -6,9 +6,6 @@ use App\Models\Banner;
 use App\Services\BannerPositionService;
 use Illuminate\Http\Request;
 use App\DataTables\BannersDataTable;
-use App\Models\Brand;
-use App\Models\Category;
-use App\Models\SubCategory;
 use Illuminate\Support\Facades\Storage;
 
 class BannersController extends Controller
@@ -26,15 +23,7 @@ class BannersController extends Controller
      */
     public function index(BannersDataTable $dataTable, Request $request)
     {
-        $brands = Brand::all()->toArray();
-        $categories = Category::all()->toArray();
-        $subCategories = SubCategory::all()->toArray();
-        $data = [
-            'brands' => $brands,
-            'categories' => $categories,
-            'subCategories' => $subCategories
-        ];
-        return $dataTable->render('pages.banners.index', $data);
+        return $dataTable->render('pages.banners.index');
     }
 
     /**

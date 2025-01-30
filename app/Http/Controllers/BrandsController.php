@@ -95,7 +95,7 @@ class BrandsController extends Controller
             if ($e->getCode() == 23000 && str_contains($e->getMessage(), '1451')) {
                 return response()->json(['message' => 'Esta marca não pode ser deletada porque está relacionada a outros registros no sistema.'], 400);
             }
-            return response()->json(['message' => 'Erro ao deletar o marca, tente novamente.'], 500);
+            return response()->json(['message' => 'Erro ao deletar a marca, tente novamente.'], 500);
         }
 
 

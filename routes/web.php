@@ -14,5 +14,7 @@ Route::middleware('sentinel.auth')->group(function () {
     Route::resource('banners', App\Http\Controllers\BannersController::class);
     Route::post('banners/{id}', [App\Http\Controllers\BannersController::class, 'update'])->name('banners.update');
     Route::resource('marcas', App\Http\Controllers\BrandsController::class);
+    Route::resource('categorias', App\Http\Controllers\CategoriesController::class);
+    Route::resource('subcategorias', App\Http\Controllers\SubcategoriesController::class);
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 });
