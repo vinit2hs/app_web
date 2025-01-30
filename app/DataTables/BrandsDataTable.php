@@ -2,14 +2,14 @@
 
 namespace App\DataTables;
 
-use App\Models\Banner;
+use App\Models\Brand;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
-class BannersDataTable extends DataTable
+class BrandsDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -19,33 +19,35 @@ class BannersDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->editColumn('image', function ($query) {
-                return '<a class="d-block overlay" data-fslightbox="lightbox-basic" href="'.asset("storage/{$query->image}").'">
-                            <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-100px"
-                                style="background-image:url('.asset("storage/{$query->image}").')"></div>
-                            <div class="overlay-layer card-rounded bg-dark bg-opacity-25 shadow">
-                                <i class="bi bi-eye-fill text-white fs-3x"></i>
-                            </div>
-                        </a>';
-            })
             ->editColumn('active', function ($query) {
                 $class = $query->active ? 'badge-light-success' : 'badge-light-danger';
                 $value = $query->active ? 'Sim' : 'Não';
                 return '<div class="badge fs-7 ' . $class . '">' . $value . '</div>';
             })
             ->editColumn('acoes', function ($query) {
-                return view('components.banners.dataTableActions', ['id' => $query->id]);
+                return view('components.brands.dataTableActions', ['id' => $query->id]);
             })
-            ->rawColumns(['image', 'active'])
+            ->rawColumns(['active'])
             ->setRowClass('text-gray-700 bg-hover-light-primary');
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(Banner $model): QueryBuilder
+    public function query(Brand $model): QueryBuilder
     {
-        return $model->newQuery();
+        $query = $model->newQuery();
+        $filter_nome = $this->request->input('filter_nome');
+        $filter_active = $this->request->input('filter_active');
+
+        if ($filter_nome) {
+            $query->where('name', 'like', '%' . $filter_nome . '%');
+        }
+        if ($filter_active || $filter_active == '0') {
+            $query->where('active', $filter_active);
+        }
+
+        return $query;
     }
 
     /**
@@ -54,7 +56,7 @@ class BannersDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('banners-table')
+            ->setTableId('brands-table')
             ->addTableClass('align-middle table-row-dashed fs-6 gy-5')
             ->setTableHeadClass('text-uppercase fw-bold text-muted fs-7')
             ->columns($this->getColumns())
@@ -65,11 +67,7 @@ class BannersDataTable extends DataTable
             ->setTemplate('')
             ->minifiedAjax('', null, [
                 'filter_nome' => "$('#filter_nome').val()",
-                'filter_sankhya_code' => "$('#filter_sankhya_code').val()",
-                'filter_intelbras_code' => "$('#filter_intelbras_code').val()",
-                'filter_brand' => "$('#filter_brand').val()",
-                'filter_category' => "$('#filter_category').val()",
-                'filter_subcategory' => "$('#filter_subcategory').val()"
+                'filter_active' => "$('#filter_active').val()",
             ]);
     }
 
@@ -79,11 +77,9 @@ class BannersDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('image')->title('Imagem')->addClass('w-175px text-center align-middle'),
-            Column::make('title')->title('Nome')->addClass('text-center align-middle'),
-            Column::make('active')->title('Visível')->addClass('text-center align-middle'),
-            Column::make('link')->title('Link')->addClass('text-center align-middle'),
-            Column::make('priority')->title('Posição')->addClass('text-center align-middle'),
+            Column::make('id')->title('Id')->addClass('w-175px text-center align-middle'),
+            Column::make('name')->title('Nome')->addClass('text-center align-middle'),
+            Column::make('active')->title('Ativo')->addClass('text-center align-middle'),
             Column::make('acoes')->title('Ações')->addClass('text-center align-middle'),
         ];
     }
@@ -93,6 +89,6 @@ class BannersDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Banners_' . date('YmdHis');
+        return 'Brands_' . date('YmdHis');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use App\DataTables\ProductsDataTable;
 use App\Models\Brand;
@@ -10,7 +11,7 @@ use App\Models\Product;
 use App\Models\SubCategory;
 use App\Models\Volume;
 
-class ProdutosController extends Controller
+class ProductsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -63,6 +64,24 @@ class ProdutosController extends Controller
             'required|integer|exists:volumes,id',
             'sankhya_code' => 'sometimes|integer',
             'intelbras_code' => 'sometimes|integer'
+        ], [
+            'name.required' => 'Campo "Nome" é obrigatório.',
+            'name.min' => 'Campo "Nome" precisa ter ao menos 5 caracteres.',
+            'name.max' => 'Campo "Nome" precisa ter menos de 101 caracteres.',
+            'brand_id.required' => 'Campo "Marca" é obrigatório.',
+            'brand_id.integer' => 'Campo "Marca" não é válido.',
+            'brand_id.exists' => 'Marca selecionada não existe',
+            'category_id.required' => 'Campo "Categoria" é obrigatório.',
+            'category_id.integer' => 'Campo "Categoria" não é válido.',
+            'category_id.exists' => 'Categoria selecionada não existe',
+            'sub_category_id.required' => 'Campo "Sub Categoria" é obrigatório.',
+            'sub_category_id.integer' => 'Campo "Sub Categoria" não é válido.',
+            'sub_category_id.exists' => 'Sub Categoria selecionada não existe',
+            'volume_id.required' => 'Campo "Tipo de Volume" é obrigatório.',
+            'volume_id.integer' => 'Campo "Tipo de Volume" não é válido.',
+            'volume_id.exists' => 'Tipo de Volume selecionado não existe',
+            'sankhya_code.integer' => 'Campo "Código Sankhya" não é válido.',
+            'intelbras_code.integer' => 'Campo "Código Intelbras" não é válido.'
         ]);
 
         Product::create($data);
@@ -110,7 +129,7 @@ class ProdutosController extends Controller
     public function update(Request $request, string $id)
     {
         $data = $request->validate([
-            'name' => 'required|string|min:5|max:100',
+            'name' => 'required|min:5|max:100',
             'description' => 'required|string|min:10',
             'brand_id' => 'required|integer|exists:brands,id',
             'category_id' => 'required|integer|exists:categories,id',
@@ -120,7 +139,27 @@ class ProdutosController extends Controller
             'required|integer|exists:volumes,id',
             'sankhya_code' => 'sometimes|integer',
             'intelbras_code' => 'sometimes|integer'
-        ]);
+        ],
+            [
+                'name.required' => 'Campo "Nome" é obrigatório.',
+                'name.min' => 'Campo "Nome" precisa ter ao menos 5 caracteres.',
+                'name.max' => 'Campo "Nome" precisa ter menos de 101 caracteres.',
+                'brand_id.required' => 'Campo "Marca" é obrigatório.',
+                'brand_id.integer' => 'Campo "Marca" não é válido.',
+                'brand_id.exists' => 'Marca selecionada não existe',
+                'category_id.required' => 'Campo "Categoria" é obrigatório.',
+                'category_id.integer' => 'Campo "Categoria" não é válido.',
+                'category_id.exists' => 'Categoria selecionada não existe',
+                'sub_category_id.required' => 'Campo "Sub Categoria" é obrigatório.',
+                'sub_category_id.integer' => 'Campo "Sub Categoria" não é válido.',
+                'sub_category_id.exists' => 'Sub Categoria selecionada não existe',
+                'volume_id.required' => 'Campo "Tipo de Volume" é obrigatório.',
+                'volume_id.integer' => 'Campo "Tipo de Volume" não é válido.',
+                'volume_id.exists' => 'Tipo de Volume selecionado não existe',
+                'sankhya_code.integer' => 'Campo "Código Sankhya" não é válido.',
+                'intelbras_code.integer' => 'Campo "Código Intelbras" não é válido.'
+            ]
+        );
 
         $product = Product::find($id);
         if (empty($product)) {
@@ -145,11 +184,12 @@ class ProdutosController extends Controller
 
         try {
             $product->delete();
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Este produto não pode ser deletado porque está relacionado a outros registros no sistema.'], 409);
+            return response()->json(['message' => 'Produto deletado com sucesso!'],200);
+        } catch (QueryException $e) {
+            if ($e->getCode() == 23000 && str_contains($e->getMessage(), '1451')) {
+                return response()->json(['message' => 'Este produto não pode ser deletado porque está relacionado a outros registros no sistema.'], 400);
+            }
+            return response()->json(['message' => 'Erro ao deletar o produto, tente novamente.'], 500);
         }
-
-
-        return response()->json(['message' => 'Produto deletar com sucesso!']);
     }
 }

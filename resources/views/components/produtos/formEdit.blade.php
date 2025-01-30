@@ -175,7 +175,6 @@
             }
         }, )
         handleSubmit(form, validator)
-        Inputmask().mask("input[data-inputmask]");
 
         $(form.find('[data-control="select2"]')).on('change', function() {
             validator.revalidateField(this.name);

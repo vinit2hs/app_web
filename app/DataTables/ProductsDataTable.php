@@ -28,8 +28,7 @@ class ProductsDataTable extends DataTable
             ->editColumn('acoes', function ($query) {
                 return view('components.produtos.dataTableActions', ['id' => $query->id]);
             })
-            ->setRowClass('text-gray-700 bg-hover-light-primary')
-            ->setRowId('id');
+            ->setRowClass('text-gray-700 bg-hover-light-primary');
     }
 
     /**

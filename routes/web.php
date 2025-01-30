@@ -10,8 +10,9 @@ Route::middleware('sentinel.noAuth')->group(function () {
 
 Route::middleware('sentinel.auth')->group(function () {
     Route::get('/', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
-    Route::resource('produtos', App\Http\Controllers\ProdutosController::class);
+    Route::resource('produtos', App\Http\Controllers\ProductsController::class);
     Route::resource('banners', App\Http\Controllers\BannersController::class);
     Route::post('banners/{id}', [App\Http\Controllers\BannersController::class, 'update'])->name('banners.update');
+    Route::resource('marcas', App\Http\Controllers\BrandsController::class);
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 });
