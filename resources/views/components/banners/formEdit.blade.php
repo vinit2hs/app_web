@@ -56,7 +56,7 @@
             </div>
             {{--end::Image input--}}
         </div>
-        <div class="col-12 d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
+        <div class="col-6 d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
             <label for="title" class="d-flex align-items-center fs-6 fw-semibold mb-2">
                 <span class="required">Nome do Banner</span>
             </label>
@@ -69,6 +69,17 @@
             </label>
             <input type="text" class="form-control form-control-solid" placeholder="Digite o link do banner"
                    name="link" id="link" value="{{$banner->link}}">
+        </div>
+        <div class="col-6 d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
+            <label for="active" class="d-flex align-items-center fs-6 fw-semibold mb-2">
+                <span class="required">Visível</span>
+            </label>
+            <select name="active" id="active" class="form-select form-select-solid" data-control="select2"
+                    data-placeholder="Selecione uma opção" data-dropdown-parent="#form_update_banner">
+                <option></option>
+                <option @selected($banner->active == 1) value="1">Sim</option>
+                <option @selected($banner->active == 0) value="0">Não</option>
+            </select>
         </div>
         <div class="col-6 d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
             <label for="priority" class="d-flex align-items-center fs-6 fw-semibold mb-2">
@@ -123,6 +134,13 @@
                 validators: {
                     notEmpty: {
                         message: "Nome é obrigatório"
+                    },
+                }
+            },
+            'active': {
+                validators: {
+                    notEmpty: {
+                        message: "Visível é obrigatório"
                     },
                 }
             },

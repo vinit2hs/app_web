@@ -30,7 +30,7 @@ class BannersDataTable extends DataTable
             })
             ->editColumn('active', function ($query) {
                 $class = $query->active ? 'badge-light-success' : 'badge-light-danger';
-                $value = $query->active ? 'Ativo' : 'Inativo';
+                $value = $query->active ? 'Sim' : 'Não';
                 return '<div class="badge fs-7 ' . $class . '">' . $value . '</div>';
             })
             ->editColumn('acoes', function ($query) {
@@ -117,7 +117,7 @@ class BannersDataTable extends DataTable
         return [
             Column::make('image')->title('Imagem')->addClass('w-175px text-center align-middle'),
             Column::make('title')->title('Nome')->addClass('text-center align-middle'),
-            Column::make('active')->title('Status')->addClass('text-center align-middle'),
+            Column::make('active')->title('Visível')->addClass('text-center align-middle'),
             Column::make('link')->title('Link')->addClass('text-center align-middle'),
             Column::make('priority')->title('Posição')->addClass('text-center align-middle'),
             Column::make('acoes')->title('Ações')->addClass('text-center align-middle'),

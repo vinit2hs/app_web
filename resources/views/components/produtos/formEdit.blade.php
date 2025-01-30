@@ -23,7 +23,7 @@
                 <span class="required">Marca</span>
             </label>
             <select name="brand_id" id="brand_id" class="form-select form-select-solid" data-control="select2"
-                data-allow-clear="true" data-placeholder="Selecione uma marca" data-dropdown-parent="#modal_master">
+                data-allow-clear="true" data-placeholder="Selecione uma marca" data-dropdown-parent="#form_update_product">
                 <option></option>
                 @foreach ($brands as $brand)
                     <option @selected($product->brand_id == $brand['id']) value="{{ $brand['id'] }}">{{ $brand['name'] }}
@@ -36,7 +36,7 @@
                 <span class="required">Categoria</span>
             </label>
             <select name="category_id" id="category_id" class="form-select form-select-solid" data-control="select2"
-                data-allow-clear="true" data-placeholder="Selecione uma categoria" data-dropdown-parent="#modal_master">
+                data-allow-clear="true" data-placeholder="Selecione uma categoria" data-dropdown-parent="#form_update_product">
                 <option></option>
                 @foreach ($categories as $categoria)
                     <option @selected($product->category_id == $categoria['id']) value="{{ $categoria['id'] }}">{{ $categoria['name'] }}
@@ -50,7 +50,7 @@
             </label>
             <select name="sub_category_id" id="sub_category_id" class="form-select form-select-solid"
                 data-control="select2" data-allow-clear="true" data-placeholder="Selecione uma sub categoria"
-                data-dropdown-parent="#modal_master">
+                data-dropdown-parent="#form_update_product">
                 <option></option>
                 @foreach ($subCategories as $subcategory)
                     <option @selected($product->sub_category_id == $subcategory['id']) value="{{ $subcategory['id'] }}">{{ $subcategory['name'] }}
@@ -63,7 +63,7 @@
                 <span class="required">Tipo de volume</span>
             </label>
             <select name="volume_id" id="volume_id" class="form-select form-select-solid" data-control="select2"
-                data-allow-clear="true" data-placeholder="Selecione um volume" data-dropdown-parent="#modal_master">
+                data-allow-clear="true" data-placeholder="Selecione um volume" data-dropdown-parent="#form_update_product">
                 <option></option>
                 @foreach ($volumes as $volume)
                     <option @selected($product->volume_id == $volume['id']) value="{{ $volume['id'] }}">{{ $volume['name'] }}

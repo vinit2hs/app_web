@@ -55,19 +55,38 @@
             </div>
             {{--end::Image input--}}
         </div>
-        <div class="col-12 d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
-            <label for="name" class="d-flex align-items-center fs-6 fw-semibold mb-2">
+        <div class="col-6 d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
+            <label for="title" class="d-flex align-items-center fs-6 fw-semibold mb-2">
                 <span class="required">Nome do Banner</span>
             </label>
             <input type="text" class="form-control form-control-solid" placeholder="Digite o nome do banner"
-                   name="name" id="name">
+                   name="title" id="title">
         </div>
-        <div class="col-12 d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
+        <div class="col-6 d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
             <label for="link" class="d-flex align-items-center fs-6 fw-semibold mb-2">
                 <span class="required">Link de navegação no app</span>
             </label>
             <input type="text" class="form-control form-control-solid" placeholder="Digite o link do banner"
                    name="link" id="link">
+        </div>
+        <div class="col-6 d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
+            <label for="active" class="d-flex align-items-center fs-6 fw-semibold mb-2">
+                <span class="required">Visível</span>
+            </label>
+            <select name="active" id="active" class="form-select form-select-solid" data-control="select2"
+                    data-placeholder="Selecione uma opção" data-dropdown-parent="#form_new_banner">
+                <option></option>
+                <option selected value="1">Sim</option>
+                <option value="0">Não</option>
+            </select>
+        </div>
+        <div class="col-6 d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
+            <label for="priority" class="d-flex align-items-center fs-6 fw-semibold mb-2">
+                <span class="required">Ordem de exibição do banner</span>
+            </label>
+            <input type="number" min="1" class="form-control form-control-solid"
+                   placeholder="Digite a ordem de exibição do banner"
+                   name="priority" id="priority" value="{{$newPosition}}">
         </div>
     </div>
     <div class="text-center mt-2">
@@ -76,13 +95,13 @@
         </button>
 
         <button type="submit" class="btn btn-primary">
-<span class="indicator-label">
-Adicionar
-</span>
+            <span class="indicator-label">
+                Adicionar
+            </span>
             <span class="indicator-progress">
-Por favor, aguarde...
-<span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-</span>
+                Por favor, aguarde...
+                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+            </span>
         </button>
     </div>
 </form>
@@ -110,11 +129,32 @@ Por favor, aguarde...
                     },
                 }
             },
-            'name': {
+            'title': {
                 validators: {
                     notEmpty: {
                         message: "Nome é obrigatório"
                     },
+                }
+            },
+            'active': {
+                validators: {
+                    notEmpty: {
+                        message: "Visível é obrigatório"
+                    },
+                }
+            },
+            'priority': {
+                validators: {
+                    notEmpty: {
+                        message: "Ordem é obrigatória"
+                    },
+                    digits: {
+                        message: 'Ordem precisa ser um número'
+                    },
+                    greaterThan: {
+                        min: 1,
+                        message: 'Ordem deve ser maior que 0'
+                    }
                 }
             },
         },)

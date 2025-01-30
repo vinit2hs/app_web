@@ -9,7 +9,7 @@ class BannerPositionService
 {
 
     // Atualiza a posição dos banners
-    public function updatePosition(int $bannerId, int $newPosition)
+    public function updatePosition(int $bannerId, int $newPosition): void
     {
         DB::transaction(function () use ($bannerId, $newPosition) {
             $banner = Banner::findOrFail($bannerId);
@@ -35,17 +35,23 @@ class BannerPositionService
     }
 
     // Reordena as posições após exclusão
-    public function reorderAfterDeletion(int $deletedPosition)
+    public function reorderAfterDeletion(int $deletedPosition): void
     {
         Banner::where('priority', '>', $deletedPosition)
             ->decrement('priority');
     }
 
     // Define a posição ao criar um novo banner
-    public function setNewBannerPosition(Banner $banner)
+    public function getNewBannerPosition()
     {
         $maxPosition = Banner::max('priority') ?? 0;
-        $banner->priority = $maxPosition + 1;
+        return $maxPosition + 1;
+    }
+
+    public function updatePositionOnStore (Banner $banner, $position): void
+    {
+        Banner::where('priority', '>=', $position)
+            ->increment('priority');
         $banner->save();
     }
 }

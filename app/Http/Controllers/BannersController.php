@@ -41,7 +41,8 @@ class BannersController extends Controller
      */
     public function create()
     {
-        $html = view('components.banners.formAdd')->render();
+        $newPosition = $this->bannerPositionService->getNewBannerPosition();
+        $html = view('components.banners.formAdd', ['newPosition' => $newPosition])->render();
         return response()->json(['html' => $html]);
     }
 
@@ -53,25 +54,31 @@ class BannersController extends Controller
         $data = $request->validate([
             'link' => 'required',
             'imagem' => 'required|file|image|mimes:jpeg,png,jpg',
-            'name' => 'required',
-        ], [
+            'title' => 'required',
+            'active' => 'required|integer|between:0,1',
+            'priority' => 'required|integer|min:1',
+        ],
+            [
             'link.required' => 'Link é obrigatório',
             'imagem.required' => 'Imagem é obrigatoria',
             'imagem.image' => 'Imagem não é válida',
             'imagem.mimes' => 'Imagem não é válida',
-            'name.required' => 'Nome é obrigatório',
+            'title.required' => 'Nome é obrigatório',
+            'active.required' => 'Visibilidade é obrigatória',
+            'active.integer' => 'Visibilidade deve ser um numero inteiro',
+            'active.between' => 'Visibilidade deve ser 0 ou 1',
+            'priority.required' => 'Ordem é obrigatória',
+            'priority.integer' => 'Ordem deve ser um numero inteiro',
+            'priority.min' => 'Ordem deve ser maior que 0',
         ]);
 
-        $imagemPath = $request->file('imagem')->store('banners', 'public');
+        $data['image'] = $request->file('imagem')->store('banners', 'public');
 
-        $banner = new Banner([
-            'link' => $data['link'],
-            'image' => $imagemPath,
-            'title' => $data['name'],
-            'active' => true
-        ]);
+        unset($data['imagem']);
 
-        $this->bannerPositionService->setNewBannerPosition($banner);
+        $banner = new Banner($data);
+
+        $this->bannerPositionService->updatePositionOnStore($banner, $data['priority']);
 
         return response()->json(['message' => 'Banner criado com sucesso!'],201);
     }
@@ -109,11 +116,15 @@ class BannersController extends Controller
             'imagem' => 'sometimes|file|image|mimes:jpeg,png,jpg',
             'title' => 'required',
             'priority' => 'required|integer|min:1',
+            'active' => 'required|integer|between:0,1',
         ], [
             'link.required' => 'Link é obrigatório',
             'imagem.image' => 'Imagem não é válida',
             'imagem.mimes' => 'Imagem não é válida',
             'name.required' => 'Nome é obrigatório',
+            'active.required' => 'Visibilidade é obrigatória',
+            'active.integer' => 'Visibilidade deve ser um numero inteiro',
+            'active.between' => 'Visibilidade deve ser 0 ou 1',
             'priority.required' => 'Ordem é obrigatória',
             'priority.integer' => 'Ordem deve ser um numero inteiro',
             'priority.min' => 'Ordem deve ser maior que 0',
