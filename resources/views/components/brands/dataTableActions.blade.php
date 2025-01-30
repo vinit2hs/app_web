@@ -18,12 +18,6 @@
 <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4"
     data-kt-menu="true" id="kt_menu-row-{{ $id }}">
     <div class="menu-item px-3">
-        <button class="btn w-100 menu-link px-3" data-table-action="show_row" data-target="#modal_master"
-            data-width="mw-950px" data-url="{{ route('marcas.edit', $id) }}">
-            Ver
-        </button>
-    </div>
-    <div class="menu-item px-3">
         <button class="btn w-100 menu-link px-3" data-table-action="edit_row" data-target="#modal_master"
             data-width="mw-950px" data-url="{{ route('marcas.edit', $id) }}">
             Editar
