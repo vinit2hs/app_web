@@ -19,7 +19,7 @@
     data-kt-menu="true" id="kt_menu-row-{{ $id }}">
     <div class="menu-item px-3">
         <button class="btn w-100 menu-link px-3" data-table-action="show_row" data-target="#modal_master"
-            data-width="mw-950px" data-url="{{ route('produtos.edit', $id) }}">
+            data-width="mw-850px" data-url="{{ route('produtos.edit', $id) }}">
             Ver
         </button>
     </div>
